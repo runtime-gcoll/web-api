@@ -12761,11 +12761,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Miner\\source\\repos\\SwirlTheoryApi\\SwirlTheoryApi\\SwirlTheoryApi.csproj",
+      "projectUniqueName": "C:\\Users\\Miner\\Documents\\GatesheadCollegeProject\\web-api\\SwirlTheoryApi\\SwirlTheoryApi\\SwirlTheoryApi.csproj",
       "projectName": "SwirlTheoryApi",
-      "projectPath": "C:\\Users\\Miner\\source\\repos\\SwirlTheoryApi\\SwirlTheoryApi\\SwirlTheoryApi.csproj",
+      "projectPath": "C:\\Users\\Miner\\Documents\\GatesheadCollegeProject\\web-api\\SwirlTheoryApi\\SwirlTheoryApi\\SwirlTheoryApi.csproj",
       "packagesPath": "C:\\Users\\Miner\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Miner\\source\\repos\\SwirlTheoryApi\\SwirlTheoryApi\\obj\\",
+      "outputPath": "C:\\Users\\Miner\\Documents\\GatesheadCollegeProject\\web-api\\SwirlTheoryApi\\SwirlTheoryApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
