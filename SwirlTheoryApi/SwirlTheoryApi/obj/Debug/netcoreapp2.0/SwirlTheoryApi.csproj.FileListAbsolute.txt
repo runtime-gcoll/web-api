@@ -1,0 +1,8 @@
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.0\SwirlTheoryApi.deps.json
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.0\SwirlTheoryApi.runtimeconfig.json
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.0\SwirlTheoryApi.runtimeconfig.dev.json
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.0\SwirlTheoryApi.dll
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.0\SwirlTheoryApi.csprojAssemblyReference.cache
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.0\SwirlTheoryApi.csproj.CoreCompileInputs.cache
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.0\SwirlTheoryApi.AssemblyInfoInputs.cache
+C:\Users\Miner\source\repos\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.0\SwirlTheoryApi.AssemblyInfo.cs
