@@ -10,6 +10,7 @@ namespace WebApi.Models
     /// An object which represents the database.
     /// </summary>
     public class ShoppingContext : DbContext {
+        public ShoppingContext() { }
         public ShoppingContext(DbContextOptions<ShoppingContext> options) : base(options) {}
 
         public DbSet<AccountType> AccountTypes { get; set; }

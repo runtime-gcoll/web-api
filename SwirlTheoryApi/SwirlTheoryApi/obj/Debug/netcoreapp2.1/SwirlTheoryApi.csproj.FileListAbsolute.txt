@@ -1,0 +1,14 @@
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.deps.json
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.runtimeconfig.json
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.runtimeconfig.dev.json
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.dll
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.csprojAssemblyReference.cache
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.csproj.CoreCompileInputs.cache
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.RazorAssemblyInfo.cache
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.RazorAssemblyInfo.cs
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.AssemblyInfoInputs.cache
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.AssemblyInfo.cs
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.RazorTargetAssemblyInfo.cache
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.pdb
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.dll
+C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.pdb
