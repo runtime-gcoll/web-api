@@ -16,6 +16,8 @@ namespace WebApi.Models
         [Required]
         [MaxLength(2048)]
         public string ProductDescription { get; set; }
+        [Url]
+        public string ImageUrl { get; set; }
         [Required]
         public float Cost { get; set; }
     }
