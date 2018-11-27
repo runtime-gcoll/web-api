@@ -12,14 +12,9 @@ namespace WebApi.Models
     /// </summary>
     public class User : IdentityUser
     {
-        /*
-        [Key]
-        public int UserId { get; set; }
-        [Required]
-        [EmailAddress]
-        public override string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
-        */
+        [Url]
+        public string ProfileImageUrl { get; set; }
+        public IEnumerable<Address> Addresses { get; set; }
+        public IEnumerable<PaymentDetails> Cards { get; set; }
     }
 }
