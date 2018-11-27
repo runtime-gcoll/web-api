@@ -1,5 +1,11 @@
 {
   "ConnectionStrings": {
     "SwirlConnectionString": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Miner\\Documents\\GatesheadCollegeProject\\web-api\\SwirlTheoryApi\\SwirlTheoryDb.mdf;Integrated Security=True;Connect Timeout=30"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "SwirlTheoryApi": "Warning"
+    }
   }
 }

@@ -31,7 +31,11 @@ namespace SwirlTheoryApi
             // We get the connection string from our config.json file (see Program.cs for config setup)
             services.AddDbContext<ShoppingContext>(options => options.UseSqlServer(_config.GetConnectionString("SwirlConnectionString")));
 
+            // Set up the seeding service which runs once at startup
             services.AddTransient<SwirlSeeder>();
+
+            // Add the Interface as a service people can use, specify the SwirlRepository implementation is to be used
+            services.AddScoped<ISwirlRepository, SwirlRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

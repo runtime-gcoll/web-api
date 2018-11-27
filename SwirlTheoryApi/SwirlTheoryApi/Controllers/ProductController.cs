@@ -13,13 +13,13 @@ namespace SwirlTheoryApi.Controllers
     public class ProductController : Controller {
         private readonly ShoppingContext _context;
 
-        public ProductController(ShoppingContext context) {
+        public ProductController(ISwirlRepository repository) {
             _context = context;
         }
 
         [HttpGet]
         public IActionResult Get() {
-            var results = _context.Products.ToList();
+            var results = repository.GetAllProducts();
             return Ok(results);
         }
     }
