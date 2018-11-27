@@ -14,6 +14,7 @@ namespace SwirlTheoryApi.Data
         }
 
         public void Seed() {
+            // NOTE: Should this be _ctx.Migrate() ?????
             _ctx.Database.EnsureCreated();
 
             // Add dummy product data for testing
@@ -56,7 +57,7 @@ namespace SwirlTheoryApi.Data
                 _ctx.SaveChanges();
             }
 
-            // TODO: Add lookup data to tables here
+            // TODO: Add lookup data to tables here (OrderStatuses)
         }
     }
 }
