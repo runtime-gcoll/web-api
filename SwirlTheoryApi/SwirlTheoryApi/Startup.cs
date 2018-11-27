@@ -27,6 +27,9 @@ namespace SwirlTheoryApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Register the Identity service with DI
+            services.AddIdentity();
+
             // Set up the DB connection and register it with dependency injection
             // We get the connection string from our config.json file (see Program.cs for config setup)
             services.AddDbContext<ShoppingContext>(options => options.UseSqlServer(_config.GetConnectionString("SwirlConnectionString")));

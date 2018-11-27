@@ -8,14 +8,27 @@ namespace SwirlTheoryApi.Data
 {
     public class SwirlSeeder {
         private readonly ShoppingContext _ctx;
+        private readonly UserManager _userManager;
 
-        public SwirlSeeder(ShoppingContext ctx) {
+        public SwirlSeeder(ShoppingContext ctx, UserManager<UserManager> userManager) {
             _ctx = ctx;
         }
 
-        public void Seed() {
+        public async Task SeedAsync() {
             // NOTE: Should this be _ctx.Migrate() ?????
             _ctx.Database.EnsureCreated();
+            User user = await _userManager.FindByEmailAsync("runtime@memeware.net");
+
+            // Add a dummy user
+            if (user == null) {
+                user = new User() {
+                    ProfileImageUrl = "https://ibb.co/XsW01rm",
+                    Email = "runtime@memeware.net",
+                    UserName = "runtime"
+                }
+            }
+
+            var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
 
             // Add dummy product data for testing
             if (!_ctx.Products.Any()) {
@@ -50,7 +63,7 @@ namespace SwirlTheoryApi.Data
                     //ProductId = 4,
                     ProductTitle = "Everybody Makes Mistakes",
                     ProductDescription = "Can I borrow $20?",
-                    ImageUrl = "https://i.redd.it/ljmtxqvz3vz11.jpg",
+                    ImageUrl = "https://i.redd.it/c7wwhkh60gw11.jpg",
                     Cost = 20.00F
                 });
 

@@ -35,7 +35,7 @@ namespace SwirlTheoryApi
             using (IServiceScope scope = scopeFactory.CreateScope()) {
                 // Get the Seeder service from within the context of the scope object
                 SwirlSeeder seeder = scope.ServiceProvider.GetService<SwirlSeeder>();
-                seeder.Seed();
+                seeder.SeedAsync()>Wait();
             }
         }
 
