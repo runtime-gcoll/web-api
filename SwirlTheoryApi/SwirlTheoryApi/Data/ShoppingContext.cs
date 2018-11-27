@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApi.Models
+namespace SwirlTheoryApi.Data
 {
     /// <summary>
     /// An object which represents the database.
