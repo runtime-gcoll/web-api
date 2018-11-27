@@ -18,6 +18,7 @@ namespace SwirlTheoryApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Get() {
             var results = repository.GetAllProducts();
             return Ok(results);
