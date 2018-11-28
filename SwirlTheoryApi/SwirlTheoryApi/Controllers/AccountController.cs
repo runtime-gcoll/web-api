@@ -75,13 +75,34 @@ namespace SwirlTheoryApi.Controllers
                         };
 
                         // Return empty string because there's no source for the object
-                        // Then return
+                        // Then return the results object (containing the key and the expiry date)
                         return Created("", results);
                     }
                 }
             }
 
             // If anything above fails to validate (wrong email, wrong password, etc.) then just return a Bad Request
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Register([FromBody] RegisterDTO model) {
+            if (ModelState.IsValid) {
+                // We don't need to do email checking because we have UniqueEmails on
+
+                // If the passwords entered are the same
+                if (model.Password == model.ConfirmPassword) {
+                    // Make a new User object
+                    User user = new User() {
+                        Email = model.Email,
+                        UserName = model.Email
+                    };
+
+                    await _userManager.CreateAsync(user, model.Password);
+                    return Created("", user);
+                }
+            }
+
             return BadRequest();
         }
     }

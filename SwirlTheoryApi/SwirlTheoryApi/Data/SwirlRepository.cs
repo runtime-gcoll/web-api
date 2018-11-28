@@ -3,6 +3,7 @@ using System.Linq;
 using SwirlTheoryApi.Data.Entities;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace SwirlTheoryApi.Data {
     public class SwirlRepository : ISwirlRepository {
@@ -13,6 +14,12 @@ namespace SwirlTheoryApi.Data {
             _ctx = ctx;
             // NOTE: See config.json for logging level settings
             _logger = logger;
+        }
+
+        // Add any kind of entity to it's respective database table
+        public IActionResult AddEntity<T>(T entity) {
+            _ctx.Add(entity);
+            return Created("", entity);
         }
 
         public IEnumerable<Product> GetAllProducts() {

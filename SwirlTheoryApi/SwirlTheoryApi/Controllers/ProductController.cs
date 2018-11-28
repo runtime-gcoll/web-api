@@ -26,5 +26,12 @@ namespace SwirlTheoryApi.Controllers
             List<Product> results = _repository.GetAllProducts().ToList();
             return Ok(results);
         }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] Product p)
+        {
+            _repository.AddEntity<Product>(p);
+            return Ok(results);
+        }
     }
 }
