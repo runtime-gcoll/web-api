@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WebApi.Models
+namespace SwirlTheoryApi.Data.Entities
 {
     /// <summary>
     /// User data for our application's user accounts

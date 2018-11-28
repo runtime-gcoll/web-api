@@ -7,5 +7,10 @@
       "Default": "Information",
       "SwirlTheoryApi": "Warning"
     }
+  },
+  "Tokens": {
+    "Key": "one super duper secure private encryption key please and thank you kind sir and/or madam",
+    "Issuer": "localhost",
+    "Audience":  "users"
   }
 }

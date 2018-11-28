@@ -1,14 +1,15 @@
-using System.Collection.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using SwirlTheoryApi.Data.Entities;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace SwirlTheoryApi.Data {
-    public class SwirlRepository {
+    public class SwirlRepository : ISwirlRepository {
         private readonly ShoppingContext _ctx;
         private readonly ILogger<SwirlRepository> _logger;
 
-        public SwirlRepository(ShoppingContext ctx, ILogger<SwirlRepositrory> logger) {
+        public SwirlRepository(ShoppingContext ctx, ILogger<SwirlRepository> logger) {
             _ctx = ctx;
             // NOTE: See config.json for logging level settings
             _logger = logger;
@@ -17,21 +18,11 @@ namespace SwirlTheoryApi.Data {
         public IEnumerable<Product> GetAllProducts() {
             try {
                 return _ctx.Products
-                    .OrderBy(p => p.Title)
+                    .OrderBy(p => p.ProductTitle)
                     .ToList();
             } catch (Exception ex) {
                 _logger.LogError($"Failed in GetAllProducts(): {ex}");
-            }
-           
-        }
-
-        public IEnumerable<Product> GetProductsByCategory(string category) {
-            try {
-                return _ctx.Products
-                    .Where(p => p.Category == category)
-                    .ToList();
-            } catch (Exception ex) {
-                _logger.LogError($"Failed in GetProductsByCategory: {ex}");
+                return null;
             }
            
         }

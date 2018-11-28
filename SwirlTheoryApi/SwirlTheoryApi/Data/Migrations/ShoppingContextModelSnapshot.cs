@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApi.Models;
+using SwirlTheoryApi.Data;
 
 namespace SwirlTheoryApi.Migrations
 {
@@ -61,62 +61,6 @@ namespace SwirlTheoryApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -185,7 +129,7 @@ namespace SwirlTheoryApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Address", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.Address", b =>
                 {
                     b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
@@ -202,12 +146,16 @@ namespace SwirlTheoryApi.Migrations
                         .IsRequired()
                         .HasMaxLength(16);
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("AddressId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("WebApi.Models.BasketRow", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.BasketRow", b =>
                 {
                     b.Property<int>("BasketRowId")
                         .ValueGeneratedOnAdd()
@@ -227,37 +175,7 @@ namespace SwirlTheoryApi.Migrations
                     b.ToTable("BasketRows");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Currency", b =>
-                {
-                    b.Property<int>("CurrencyId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CurrencyType")
-                        .IsRequired()
-                        .HasMaxLength(32);
-
-                    b.HasKey("CurrencyId");
-
-                    b.ToTable("Currencies");
-                });
-
-            modelBuilder.Entity("WebApi.Models.DisplayLanguage", b =>
-                {
-                    b.Property<int>("DisplayLanguageId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Language")
-                        .IsRequired()
-                        .HasMaxLength(8);
-
-                    b.HasKey("DisplayLanguageId");
-
-                    b.ToTable("DisplayLanguages");
-                });
-
-            modelBuilder.Entity("WebApi.Models.Order", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -274,7 +192,7 @@ namespace SwirlTheoryApi.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("WebApi.Models.OrderStatus", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.OrderStatus", b =>
                 {
                     b.Property<int>("OrderStatusId")
                         .ValueGeneratedOnAdd()
@@ -288,7 +206,7 @@ namespace SwirlTheoryApi.Migrations
                     b.ToTable("OrderStatuses");
                 });
 
-            modelBuilder.Entity("WebApi.Models.PaymentDetails", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.PaymentDetails", b =>
                 {
                     b.Property<int>("PaymentDetailsId")
                         .ValueGeneratedOnAdd()
@@ -300,12 +218,16 @@ namespace SwirlTheoryApi.Migrations
 
                     b.Property<int>("SecurityCode");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("PaymentDetailsId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PaymentDetails");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Product", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -323,57 +245,64 @@ namespace SwirlTheoryApi.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+                    b.Property<int>("Quantity");
+
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new { ProductId = 1, Cost = 200f, ImageUrl = "https://preview.redd.it/ogmlb210je021.jpg?width=960&crop=smart&auto=webp&s=9e7ac8f5267e3f6dfea4bddf027c552207308038", ProductDescription = "A totally RAD shirt", ProductTitle = "Test Product 1" }
-                    );
                 });
 
-            modelBuilder.Entity("WebApi.Models.UserProfile", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.User", b =>
                 {
-                    b.Property<int>("UserProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AddressId");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<int?>("CurrencyId");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
-                    b.Property<int?>("DisplayLanguageId");
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
 
-                    b.Property<string>("ImageUrl");
+                    b.Property<bool>("EmailConfirmed");
 
-                    b.Property<int?>("PaymentDetailsId");
+                    b.Property<bool>("LockoutEnabled");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.HasKey("UserProfileId");
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
 
-                    b.HasIndex("AddressId");
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
 
-                    b.HasIndex("CurrencyId");
+                    b.Property<string>("PasswordHash");
 
-                    b.HasIndex("DisplayLanguageId");
+                    b.Property<string>("PhoneNumber");
 
-                    b.HasIndex("PaymentDetailsId");
+                    b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.HasIndex("UserId");
+                    b.Property<string>("ProfileImageUrl");
 
-                    b.ToTable("UserProfiles");
-                });
+                    b.Property<string>("SecurityStamp");
 
-            modelBuilder.Entity("WebApi.Models.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
 
-                    b.ToTable("User");
+                    b.HasKey("Id");
 
-                    b.HasDiscriminator().HasValue("User");
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -386,7 +315,7 @@ namespace SwirlTheoryApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -394,7 +323,7 @@ namespace SwirlTheoryApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -407,7 +336,7 @@ namespace SwirlTheoryApi.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -415,55 +344,45 @@ namespace SwirlTheoryApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WebApi.Models.BasketRow", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.Address", b =>
                 {
-                    b.HasOne("WebApi.Models.Product", "Product")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.BasketRow", b =>
+                {
+                    b.HasOne("SwirlTheoryApi.Data.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WebApi.Models.User", "User")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WebApi.Models.Order", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.Order", b =>
                 {
-                    b.HasOne("WebApi.Models.OrderStatus", "OrderStatus")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.OrderStatus", "OrderStatus")
                         .WithMany()
                         .HasForeignKey("OrderStatusId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WebApi.Models.UserProfile", b =>
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.PaymentDetails", b =>
                 {
-                    b.HasOne("WebApi.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("WebApi.Models.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId");
-
-                    b.HasOne("WebApi.Models.DisplayLanguage", "DisplayLanguage")
-                        .WithMany()
-                        .HasForeignKey("DisplayLanguageId");
-
-                    b.HasOne("WebApi.Models.PaymentDetails", "PaymentDetails")
-                        .WithMany()
-                        .HasForeignKey("PaymentDetailsId");
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
+                        .WithMany("Cards")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
+using SwirlTheoryApi.Data;
+using SwirlTheoryApi.Data.Entities;
 
 namespace SwirlTheoryApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class ProductController : Controller {
-        private readonly ShoppingContext _context;
+        private readonly ISwirlRepository _repository;
 
         public ProductController(ISwirlRepository repository) {
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Get() {
-            var results = repository.GetAllProducts();
+            List<Product> results = _repository.GetAllProducts().ToList();
             return Ok(results);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SwirlTheoryApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace SwirlTheoryApi.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<BasketRow> BasketRows { get; set; }
         public DbSet<Order> Orders { get; set; }
+        //public DbSet<OrderStatus> OrderStatuses { get; set; } // We need access to this here so we can add seed data (it's a static lookup table)
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
 
@@ -29,6 +31,12 @@ namespace SwirlTheoryApi.Data
             builder.Entity<Product>()
                 .HasData();
                 */
+
+            // Set up value conversion for the OrderStatus type
+            // This will allow EF Core to map DB values to the enum in our Entities namespace (OrderStatus.cs)
+            builder.Entity<Order>()
+                .Property(e => e.OrderStatus)
+                .HasConversion<string>();
         }
     }
 }

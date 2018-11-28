@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WebApi.Models
+namespace SwirlTheoryApi.Data.Entities
 {
     public class Product
     {
@@ -20,5 +20,7 @@ namespace WebApi.Models
         public string ImageUrl { get; set; }
         [Required]
         public float Cost { get; set; }
+        [Required]
+        public int Quantity { get; set; }
     }
 }
