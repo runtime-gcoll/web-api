@@ -14,5 +14,7 @@ namespace SwirlTheoryApi.Data.Entities
         public User User { get; set; }
         [Required]
         public Product Product { get; set; }
+        [Required]
+        public int Quantity { get; set; }
     }
 }

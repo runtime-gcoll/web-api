@@ -18,9 +18,9 @@ namespace SwirlTheoryApi.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<BasketRow> BasketRows { get; set; }
         public DbSet<Order> Orders { get; set; }
-        //public DbSet<OrderStatus> OrderStatuses { get; set; } // We need access to this here so we can add seed data (it's a static lookup table)
+        public DbSet<PaymentDetails> PaymentDetails { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<User> Users { get; set; }
+        public new DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

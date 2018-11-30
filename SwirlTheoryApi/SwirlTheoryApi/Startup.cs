@@ -46,7 +46,7 @@ namespace SwirlTheoryApi
                     cfg.TokenValidationParameters = new TokenValidationParameters() {
                         ValidIssuer = _config["Tokens:Issuer"],
                         ValidAudience = _config["Tokens:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
                     };
                 });
 
@@ -78,7 +78,11 @@ namespace SwirlTheoryApi
             // Enable Identity-based auth
             app.UseAuthentication();
 
-            app.UseHttpsRedirection();
+            // Disable default HTTPS redirection while we're in a development environment
+            if (!env.IsDevelopment()) {
+                app.UseHttpsRedirection();
+            }
+            
             app.UseMvc();
         }
     }

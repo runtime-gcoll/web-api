@@ -11,6 +11,8 @@ namespace SwirlTheoryApi.Data.Entities
         [Key]
         public int AddressId { get; set; }
         [Required]
+        public User User { get; set; }
+        [Required]
         [MaxLength(256)]
         public string AddressLine1 { get; set; }
         [MaxLength(256)]

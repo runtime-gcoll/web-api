@@ -17,5 +17,6 @@ namespace SwirlTheoryApi.Data.Entities
         public DateTime ExpirationDate { get; set; }
         [Required]
         public int SecurityCode { get; set; }
+        public User User { get; set; }
     }
 }

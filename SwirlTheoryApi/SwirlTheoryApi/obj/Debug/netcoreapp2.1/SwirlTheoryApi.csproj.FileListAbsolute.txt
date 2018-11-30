@@ -12,3 +12,17 @@ C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlThe
 C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.RazorTargetAssemblyInfo.cache
 C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.dll
 C:\Users\Miner\Documents\GatesheadCollegeProject\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.pdb
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.deps.json
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.runtimeconfig.json
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.runtimeconfig.dev.json
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.dll
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\bin\Debug\netcoreapp2.1\SwirlTheoryApi.pdb
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.csprojAssemblyReference.cache
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.csproj.CoreCompileInputs.cache
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.RazorAssemblyInfo.cache
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.RazorAssemblyInfo.cs
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.AssemblyInfoInputs.cache
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.AssemblyInfo.cs
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.RazorTargetAssemblyInfo.cache
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.dll
+C:\Users\runtime\Documents\code\web-api\SwirlTheoryApi\SwirlTheoryApi\obj\Debug\netcoreapp2.1\SwirlTheoryApi.pdb

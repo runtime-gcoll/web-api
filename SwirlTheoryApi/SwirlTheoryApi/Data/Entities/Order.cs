@@ -14,6 +14,10 @@ namespace SwirlTheoryApi.Data.Entities
         public DateTime OrderDate { get; set; }
         [Required]
         public OrderStatus OrderStatus { get; set; }
-        IEnumerable<OrderRow> OrderRows { get; set; }
+        [Required]
+        public User User { get; set; }
+        [Required]
+        public Address Address { get; set; }
+        public IEnumerable<OrderRow> OrderRows { get; set; }
     }
 }

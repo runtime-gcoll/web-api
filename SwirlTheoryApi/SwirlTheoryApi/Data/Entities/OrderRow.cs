@@ -12,5 +12,6 @@ namespace SwirlTheoryApi.Data.Entities
         public int OrderRowId { get; set; }
         public Order Order { get; set; }
         public Product Product { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SwirlTheoryApi.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,29 +13,87 @@ namespace SwirlTheoryApi.Data
     public class SwirlSeeder {
         private readonly ShoppingContext _ctx;
         private readonly UserManager<User> _userManager;
+        private readonly IServiceProvider _serviceProvider;
 
-        public SwirlSeeder(ShoppingContext ctx, UserManager<User> userManager) {
+        public SwirlSeeder(ShoppingContext ctx,
+            UserManager<User> userManager,
+            IServiceProvider serviceProvider) {
             _ctx = ctx;
+            _userManager = userManager;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task SeedAsync() {
             // NOTE: Should this be _ctx.Migrate() ?????
             _ctx.Database.EnsureCreated();
-            User user = await _userManager.FindByEmailAsync("runtime@memeware.net");
+
+            // Create User roles
+            // Get a RoleManager
+            RoleManager<IdentityRole> roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            // Specify the roles we want to create
+            string[] roleNames = { "User", "Admin" };
+            // Loop through them
+            foreach (var roleName in roleNames) {
+                // Check if the role already exists
+                bool roleExist = await roleManager.RoleExistsAsync(roleName);
+                // If it doesn't, then create it
+                if (!roleExist) {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            // Set up a User
+            User adminUser = await _userManager.FindByEmailAsync("runtime@memeware.net");
 
             // Add a dummy user
-            if (user == null) {
-                user = new User()
+            if (adminUser == null) {
+                adminUser = new User()
                 {
                     ProfileImageUrl = "https://ibb.co/XsW01rm",
                     Email = "runtime@memeware.net",
-                    UserName = "runtime"
+                    UserName = "runtime@memeware.net",
                 };
+
+                // Create the user in the DB
+                IdentityResult adminResult = await _userManager.CreateAsync(adminUser, "P@ssw0rd!");
+                // If it's not successful, then throw an error
+                if (adminResult != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create new user in seeder");
+                }
+                // Otherwise, assign the user to the Admin role
+                else
+                {
+                    await _userManager.AddToRoleAsync(adminUser, roleNames[1]);
+                }
             }
 
-            var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
-            if (result != IdentityResult.Success) {
-                throw new InvalidOperationException("Could not create new user in seeder");
+            // Now, set up another user who isn't an Admin
+            // Set up a User
+            User normalUser = await _userManager.FindByEmailAsync("j.r.user@gmail.com");
+
+            // Add a dummy user
+            if (normalUser == null)
+            {
+                normalUser = new User()
+                {
+                    ProfileImageUrl = "https://thewondrous.com/wp-content/uploads/2015/07/stylish-profile-pictures-for-facebook-for-girls.jpg",
+                    Email = "j.r.user@gmail.com",
+                    UserName = "j.r.user@gmail.com",
+                };
+
+                // Create the user
+                var normalResult = await _userManager.CreateAsync(normalUser, "P@ssw0rd!");
+                // If it's not successful, then throw an error
+                if (normalResult != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create new user in seeder");
+                }
+                // Otherwise, assign the user to the Admin role
+                else
+                {
+                    await _userManager.AddToRoleAsync(normalUser, roleNames[0]);
+                }
             }
 
             // Add default product data
@@ -72,27 +133,6 @@ namespace SwirlTheoryApi.Data
 
                 _ctx.SaveChanges();
             }
-
-            // Add static lookup data to the OrderStatuses table
-            /*
-            // For when an order has been placed and not yet shipped
-            _ctx.OrderStatuses.Add(new OrderStatus
-            {
-                Status = "Ordered"
-            });
-
-            // For once an order has been shipped from our warehouses
-            _ctx.OrderStatuses.Add(new OrderStatus
-            {
-                Status = "Shipped"
-            });
-
-            // For after we think an order should have arrived to the customer
-            _ctx.OrderStatuses.Add(new OrderStatus
-            {
-                Status = "Delivered"
-            });
-            */
         }
     }
 }

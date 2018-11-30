@@ -5,7 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20181126222856_InitialMigration.cs" />
+    <Compile Remove="Data\Migrations\20181126222856_InitialMigration.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181126225514_SeedData.cs" />
+    <Compile Remove="Data\Migrations\20181126225514_SeedData.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181127213201_Identity.cs" />
+    <Compile Remove="Data\Migrations\20181127213201_Identity.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181129095946_Initial.cs" />
+    <Compile Remove="Data\Migrations\20181129095946_Initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Data\Entities\" />
+    <Folder Include="Data\Migrations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

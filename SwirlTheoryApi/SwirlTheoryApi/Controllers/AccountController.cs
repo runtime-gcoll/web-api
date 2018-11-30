@@ -5,12 +5,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using SwirlTheoryApi.Data;
 using SwirlTheoryApi.Data.DTO;
 using SwirlTheoryApi.Data.Entities;
 
@@ -18,16 +21,22 @@ namespace SwirlTheoryApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // Since we want anyone to be able to sign up for a new account, and obviously you can't need to be logged in
+    // in order to log in, only the ElevateToAdmin() method below has it's own Authorize tag
     public class AccountController : Controller {
-        private readonly ILogger<AccountController> _logger;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly ShoppingContext _ctx;
+        private readonly ILogger<AccountController> _logger; // Log errors
+        private readonly UserManager<User> _userManager; // For creating new users and changing user roles
+        private readonly SignInManager<User> _signInManager; // For logging users in
         private readonly IConfiguration _config; // We need access to JWT info stored in config.json
 
-        public AccountController(ILogger<AccountController> logger,
+        public AccountController(ShoppingContext ctx,
+            ILogger<AccountController> logger,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IConfiguration config) {
+            IConfiguration config,
+            IServiceProvider serviceProvider) {
+            _ctx = ctx;
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -35,6 +44,7 @@ namespace SwirlTheoryApi.Controllers
         }
 
         [HttpPost]
+        [Route("login")]
         public async Task<ActionResult> CreateToken([FromBody] LoginDTO model) {
             // If the state matches the validation in the LoginDTO we got passed
             if (ModelState.IsValid) {
@@ -82,10 +92,11 @@ namespace SwirlTheoryApi.Controllers
             }
 
             // If anything above fails to validate (wrong email, wrong password, etc.) then just return a Bad Request
-            return BadRequest();
+            return BadRequest("Login failed");
         }
 
         [HttpPost]
+        [Route("register")]
         public async Task<ActionResult> Register([FromBody] RegisterDTO model) {
             if (ModelState.IsValid) {
                 // We don't need to do email checking because we have UniqueEmails on
@@ -102,6 +113,19 @@ namespace SwirlTheoryApi.Controllers
                     return Created("", user);
                 }
             }
+
+            return BadRequest("Registration failed");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")] // Only an Admin account can make another account an Admin
+        [Route("elevate")]
+        public async Task<ActionResult> ElevateToAdmin(string userId) {
+            User user = _ctx.Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            await _userManager.AddToRoleAsync(user, "Admin");
 
             return BadRequest();
         }
