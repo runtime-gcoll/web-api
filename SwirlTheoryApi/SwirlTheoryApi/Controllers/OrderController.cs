@@ -25,7 +25,7 @@ namespace SwirlTheoryApi.Controllers
         // Return all orders, only for admins
         [HttpGet]
         [Route("all")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "AdminOnly")]
         public IActionResult GetAll() {
             try {
                 return Ok(_repository.GetOrders());
@@ -51,7 +51,7 @@ namespace SwirlTheoryApi.Controllers
         // Allow Admins to see a list of Orders associated with a user
         [HttpGet]
         [Route("foruser")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "AdminOnly")]
         public IActionResult GetForUser(string userId) {
             try {
                 return Ok(_repository.GetOrdersByUserId(userId));
@@ -62,8 +62,8 @@ namespace SwirlTheoryApi.Controllers
         }
 
         [HttpGet]
-        [Route("mine")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        [Route("myorders")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetMyOrders()
         {
             try {
@@ -76,17 +76,20 @@ namespace SwirlTheoryApi.Controllers
         }
 
         // Everyone needs to be able to convert their BasketItems into an order
-        [HttpPost]
+        [HttpGet]
         [Route("create")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Create() {
             try {
                 // Get the current user's ID
                 string uid = _repository.GetUserIdFromUsername(User.Identity.Name);
+                // Get the User to attach to the Order
+                User user = _repository.GetUserByUserId(uid);
                 // Get all of the user's BasketRows
                 List<BasketRow> brows = _repository.GetBasketRowsByUserId(uid).ToList();
                 // Create a new Order
                 Order newOrder = new Order() {
+                    User = user,
                     OrderDate = DateTime.UtcNow,
                     OrderStatus = OrderStatus.Ordered
                 };
@@ -108,9 +111,13 @@ namespace SwirlTheoryApi.Controllers
                 // It should interface with the DB properly and the Order into the Order table
                 // And the OrderRows into the OrderRow table with all the foreign keys linked up properly
                 _repository.AddEntity(newOrder);
+                // NOTE: OrderRows do not get added to the DB when you do this, so add them manually
+                foreach (OrderRow or in newOrderRows) {
+                    _repository.AddEntity(or);
+                }
                 // Now we can delete all the BasketRows, since they've been converted to OrderRows and we don't need them anymore
                 foreach (BasketRow brow in brows) {
-                    _repository.DeleteBasketRow(brow.BasketRowId);
+                    _repository.DeleteBasketRow(brow.User.Id, brow.Product.ProductId);
                 }
                 // And save the changes to the DB
                 _repository.SaveAll();

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SwirlTheoryApi.Data;
 using SwirlTheoryApi.Data.Entities;
@@ -49,10 +47,17 @@ namespace SwirlTheoryApi.Controllers
             }
         }
 
+        // Getting product info, can be accessed by anybody
+        [HttpGet]
+        [Route("product")]
+        public IActionResult GetProduct(int productId) {
+            return Ok(_repository.GetProductById(productId));  
+        }
+
         // Creating products, can only be done by Admins
         [HttpPost]
         [Route("create")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "AdminOnly")]
         public IActionResult Post([FromBody] Product p)
         {
             try {
@@ -71,7 +76,7 @@ namespace SwirlTheoryApi.Controllers
         // Updating products, only for Admins
         [HttpPut]
         [Route("update")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "AdminOnly")]
         public IActionResult Put([FromBody] Product p) {
             try {
                 _repository.UpdateProduct(p);
@@ -87,7 +92,7 @@ namespace SwirlTheoryApi.Controllers
         // Deleting products, only for Admins
         [HttpDelete]
         [Route("delete")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "AdminOnly")]
         public IActionResult Delete(int productId) {
             try {
                 _repository.DeleteProduct(productId);

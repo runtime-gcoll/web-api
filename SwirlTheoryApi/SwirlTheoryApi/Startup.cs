@@ -50,6 +50,12 @@ namespace SwirlTheoryApi
                     };
                 });
 
+            // Add role-based authorization policy
+            services.AddAuthorization(options => {
+                // Policy is applied to routes that only Admin users should be able to access
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("IsAdmin", "true"));
+            });
+
             // Set up the DB connection and register it with dependency injection
             // We get the connection string from our config.json file (see Program.cs for config setup)
             services.AddDbContext<ShoppingContext>(options => options.UseSqlServer(_config.GetConnectionString("SwirlConnectionString")));
@@ -60,7 +66,12 @@ namespace SwirlTheoryApi
             // Add the Interface as a service people can use, specify the SwirlRepository implementation is to be used
             services.AddScoped<ISwirlRepository, SwirlRepository>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                // This prevents object pairs with self-referencing attributes from crashing the server whenever we ask for them
+                // For example, the Order class has a list of OrderRows, each of which has a reference to the Order it's a part of
+                // This option tells the JSON serializer not to try and go down these rabbit holes when it's trying to turn our C# data into JSON for transmission
+                .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

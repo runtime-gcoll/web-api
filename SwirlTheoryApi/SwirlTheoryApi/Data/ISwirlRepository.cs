@@ -10,6 +10,7 @@ namespace SwirlTheoryApi.Data {
         // NOTE: We don't need any User access methods since we can access
         // user data in ALL relevant places using the UserManager class
         string GetUserIdFromUsername(string username);
+        User GetUserByUserId(string uid);
 
         // Product access methods
         IEnumerable<Product> GetAllProducts();
@@ -24,10 +25,10 @@ namespace SwirlTheoryApi.Data {
         void DeleteAddress(int addressId);
 
         // BasketRow access methods
-        IEnumerable<BasketRow> GetBasketProductsByUserId(string userId);
+        IEnumerable<BasketRow> GetBasketRowsByUserId(string userId);
         BasketRow GetBasketRowByUserProduct(string userId, int productId);
-        void UpdateBasketRowQuantity(int basketRowId, int quantity);
-        void DeleteBasketRow(int basketRowId);
+        void UpdateBasketRow(BasketRow model);
+        void DeleteBasketRow(string userId, int productId);
 
         // Order access methods
         IEnumerable<Order> GetOrders();

@@ -61,9 +61,10 @@ namespace SwirlTheoryApi.Data
                 {
                     throw new InvalidOperationException("Could not create new user in seeder");
                 }
-                // Otherwise, assign the user to the Admin role
+                // Otherwise, assign the user to the Admin and User roles
                 else
                 {
+                    await _userManager.AddToRoleAsync(adminUser, roleNames[0]);
                     await _userManager.AddToRoleAsync(adminUser, roleNames[1]);
                 }
             }

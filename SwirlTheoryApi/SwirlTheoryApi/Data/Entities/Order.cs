@@ -14,9 +14,9 @@ namespace SwirlTheoryApi.Data.Entities
         public DateTime OrderDate { get; set; }
         [Required]
         public OrderStatus OrderStatus { get; set; }
-        [Required]
+        //[Required] // Making this not required in a dirty hack to fix code first migrations quickly
         public User User { get; set; }
-        [Required]
+        //[Required]
         public Address Address { get; set; }
         public IEnumerable<OrderRow> OrderRows { get; set; }
     }

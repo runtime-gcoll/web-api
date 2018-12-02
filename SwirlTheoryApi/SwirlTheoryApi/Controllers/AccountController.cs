@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -54,7 +55,7 @@ namespace SwirlTheoryApi.Controllers
                 User user = await _userManager.FindByEmailAsync(model.Email);
                 // If one exists, check that the password is valid
                 if (user != null) {
-                    var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+                    Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
                     // If the password *is* valid, then create a JWT and kick it back to the client
                     if (result.Succeeded) {
@@ -63,6 +64,11 @@ namespace SwirlTheoryApi.Controllers
                             new Claim(JwtRegisteredClaimNames.Sub, user.Email), // The user's email address
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // A unique string used to ID the token
                             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName), // The user's username
+                            // This claim is required to make our Authorisation policy work
+                            // If the user is in the Admin role, then store "true" in the claim, otherwise store "false"
+                            // The policy requires a value of "true" in order to let people through
+                            new Claim("IsAdmin", await _userManager.IsInRoleAsync(user, "Admin") ? "true": "false")
+                            
                         };
 
                         // Key for encryption (comes from config.json)
@@ -111,8 +117,14 @@ namespace SwirlTheoryApi.Controllers
                         UserName = model.Email
                     };
 
-                    await _userManager.CreateAsync(user, model.Password);
-                    return Created("", user);
+                    IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded) {
+                        return Created("", user);
+                    }
+                    else {
+                        return BadRequest(result.Errors);
+                    }
+                    
                 }
             }
 
@@ -120,16 +132,21 @@ namespace SwirlTheoryApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")] // Only an Admin account can make another account an Admin
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "AdminOnly")] // Only an Admin account can make another account an Admin
         [Route("elevate")]
         public async Task<ActionResult> ElevateToAdmin(string userId) {
-            User user = _ctx.Users
-                .Where(u => u.Id == userId)
-                .FirstOrDefault();
+            // Get the user
+            User user = await _userManager.FindByIdAsync(userId);
+            // Add them to the role
+            IdentityResult result = await _userManager.AddToRoleAsync(user, "Admin");
 
-            await _userManager.AddToRoleAsync(user, "Admin");
-
-            return BadRequest();
+            if (result.Succeeded)
+            {
+                return Ok(user);
+            }
+            else {
+                return BadRequest(result.Errors);
+            }
         }
     }
 }

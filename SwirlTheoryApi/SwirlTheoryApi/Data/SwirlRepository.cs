@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace SwirlTheoryApi.Data {
     public class SwirlRepository : ISwirlRepository {
@@ -41,6 +42,12 @@ namespace SwirlTheoryApi.Data {
                 .FirstOrDefault();
 
             return user.Id;
+        }
+
+        public User GetUserByUserId(string uid) {
+            return _ctx.Users
+                .Where(u => u.Id == uid)
+                .FirstOrDefault();
         }
 
         // ---------------
@@ -148,22 +155,19 @@ namespace SwirlTheoryApi.Data {
         //
         // BasketRow methods
         //
-        public IEnumerable<BasketRow> GetBasketProductsByUserId(string userId) {
+        public IEnumerable<BasketRow> GetBasketRowsByUserId(string userId) {
             try {
                 User user = _ctx.Users
                     .Where(u => u.Id == userId)
                     .FirstOrDefault();
                 List<BasketRow> brows = _ctx.BasketRows
                     .Where(br => br.User == user)
+                    .Include(br => br.Product)
                     .ToList();
-                List<Product> products = new List<Product>();
-                foreach (BasketRow br in brows) {
-                    products.Add(br.Product);
-                }
-                return products;
+                return brows;
             }
             catch (Exception ex) {
-                _logger.LogError($"Failed in GetAddressesByUserId(): {ex}");
+                _logger.LogError($"Failed in GetBasketRowsByUserId(): {ex}");
                 return null;
             }
         }
@@ -179,29 +183,30 @@ namespace SwirlTheoryApi.Data {
                 .FirstOrDefault();
             return _ctx.BasketRows
                 .Where(br => br.User == user)
-                .Where(br => br.Product == product)
+                .Where(br => br.Product == prod)
                 .FirstOrDefault();
         }
 
-        public void UpdateBasketRowQuantity(int basketRowId, int quantity) {
+        public void UpdateBasketRow(BasketRow model) {
             try {
-                BasketRow brow = _ctx.BasketRows
-                    .Where(br => br.BasketRowId == basketRowId)
-                    .FirstOrDefault();
-
-                brow.Quantity = quantity;
-
-                _ctx.BasketRows.Update(brow);
+                // Same principle as UpdateProduct()
+                _ctx.BasketRows.Update(model);
             }
             catch (Exception ex) {
                 _logger.LogError($"Failed in UpdateBasketRowQuantity(): {ex}");
             }
         }
 
-        public void DeleteBasketRow(int basketRowId) {
+        public void DeleteBasketRow(string userId, int productId) {
             try {
+                // Get the user
+                User user = GetUserByUserId(userId);
+                // Get the product
+                Product product = GetProductById(productId);
+                // Get the BasketRow
                 BasketRow brow = _ctx.BasketRows
-                    .Where(br => br.BasketRowId == basketRowId)
+                    .Where(br => br.User == user)
+                    .Where(br => br.Product == product)
                     .FirstOrDefault();
                 _ctx.BasketRows.Remove(brow);
             }
@@ -232,6 +237,8 @@ namespace SwirlTheoryApi.Data {
                     .FirstOrDefault();
                 return _ctx.Orders
                     .Where(o => o.User == user)
+                    .Include(o => o.OrderRows)
+                        .ThenInclude(or => or.Product)
                     .ToList();
             }
             catch (Exception ex) {

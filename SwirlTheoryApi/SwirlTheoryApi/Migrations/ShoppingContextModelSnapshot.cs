@@ -146,7 +146,8 @@ namespace SwirlTheoryApi.Migrations
                         .IsRequired()
                         .HasMaxLength(16);
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("AddressId");
 
@@ -162,6 +163,8 @@ namespace SwirlTheoryApi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ProductId");
+
+                    b.Property<int>("Quantity");
 
                     b.Property<string>("UserId")
                         .IsRequired();
@@ -181,14 +184,43 @@ namespace SwirlTheoryApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AddressId");
+
                     b.Property<DateTime>("OrderDate");
 
                     b.Property<string>("OrderStatus")
                         .IsRequired();
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("OrderId");
 
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.OrderRow", b =>
+                {
+                    b.Property<int>("OrderRowId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("OrderId");
+
+                    b.Property<int?>("ProductId");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("OrderRowId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderRow");
                 });
 
             modelBuilder.Entity("SwirlTheoryApi.Data.Entities.PaymentDetails", b =>
@@ -337,9 +369,10 @@ namespace SwirlTheoryApi.Migrations
 
             modelBuilder.Entity("SwirlTheoryApi.Data.Entities.Address", b =>
                 {
-                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User", "User")
                         .WithMany("Addresses")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SwirlTheoryApi.Data.Entities.BasketRow", b =>
@@ -355,9 +388,31 @@ namespace SwirlTheoryApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.Order", b =>
+                {
+                    b.HasOne("SwirlTheoryApi.Data.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SwirlTheoryApi.Data.Entities.OrderRow", b =>
+                {
+                    b.HasOne("SwirlTheoryApi.Data.Entities.Order", "Order")
+                        .WithMany("OrderRows")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("SwirlTheoryApi.Data.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("SwirlTheoryApi.Data.Entities.PaymentDetails", b =>
                 {
-                    b.HasOne("SwirlTheoryApi.Data.Entities.User")
+                    b.HasOne("SwirlTheoryApi.Data.Entities.User", "User")
                         .WithMany("Cards")
                         .HasForeignKey("UserId");
                 });

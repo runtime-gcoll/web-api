@@ -27,7 +27,7 @@ namespace SwirlTheoryApi.Controllers
 
         [HttpGet]
         [Route("mine")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetMyAddresses() {
             try {
                 string uid = _repository.GetUserIdFromUsername(User.Identity.Name);
