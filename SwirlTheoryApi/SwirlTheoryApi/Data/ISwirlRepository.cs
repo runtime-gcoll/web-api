@@ -24,7 +24,8 @@ namespace SwirlTheoryApi.Data {
         void DeleteAddress(int addressId);
 
         // BasketRow access methods
-        IEnumerable<BasketRow> GetBasketRowsByUserId(string userId);
+        IEnumerable<BasketRow> GetBasketProductsByUserId(string userId);
+        BasketRow GetBasketRowByUserProduct(string userId, int productId);
         void UpdateBasketRowQuantity(int basketRowId, int quantity);
         void DeleteBasketRow(int basketRowId);
 

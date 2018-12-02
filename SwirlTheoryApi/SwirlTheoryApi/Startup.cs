@@ -82,7 +82,10 @@ namespace SwirlTheoryApi
             if (!env.IsDevelopment()) {
                 app.UseHttpsRedirection();
             }
-            
+
+            // Allow CORS (needed since the Angular frontend is running on a separate server)
+            app.UseCors();
+
             app.UseMvc();
         }
     }

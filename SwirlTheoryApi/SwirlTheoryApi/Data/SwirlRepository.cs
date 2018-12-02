@@ -148,19 +148,39 @@ namespace SwirlTheoryApi.Data {
         //
         // BasketRow methods
         //
-        public IEnumerable<BasketRow> GetBasketRowsByUserId(string userId) {
+        public IEnumerable<BasketRow> GetBasketProductsByUserId(string userId) {
             try {
                 User user = _ctx.Users
                     .Where(u => u.Id == userId)
                     .FirstOrDefault();
-                return _ctx.BasketRows
+                List<BasketRow> brows = _ctx.BasketRows
                     .Where(br => br.User == user)
                     .ToList();
+                List<Product> products = new List<Product>();
+                foreach (BasketRow br in brows) {
+                    products.Add(br.Product);
+                }
+                return products;
             }
             catch (Exception ex) {
                 _logger.LogError($"Failed in GetAddressesByUserId(): {ex}");
                 return null;
             }
+        }
+
+        public BasketRow GetBasketRowByUserProduct(string userId, int productId) {
+            // Get the User the row is associated with
+            User user = _ctx.Users
+                    .Where(u => u.Id == userId)
+                    .FirstOrDefault();
+            // Get the Product we're looking for
+            Product prod = _ctx.Products
+                .Where(p => p.ProductId == productId)
+                .FirstOrDefault();
+            return _ctx.BasketRows
+                .Where(br => br.User == user)
+                .Where(br => br.Product == product)
+                .FirstOrDefault();
         }
 
         public void UpdateBasketRowQuantity(int basketRowId, int quantity) {
