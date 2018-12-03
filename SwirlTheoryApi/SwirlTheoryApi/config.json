@@ -1,9 +1,9 @@
 {
   "ConnectionStrings": {
     // DB on laptop
-    //"SwirlConnectionString": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\runtime\\Documents\\code\\web-api\\SwirlTheoryApi\\SwirlTheoryDb.mdf;Integrated Security=True;Connect Timeout=30"
+    "SwirlConnectionString": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\runtime\\Documents\\code\\web-api\\SwirlTheoryApi\\SwirlTheoryDb.mdf;Integrated Security=True;Connect Timeout=30"
     // DB on desktop
-    "SwirlConnectionString": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Miner\\Documents\\GatesheadCollegeProject\\web-api\\SwirlTheoryApi\\SwirlTheoryDb.mdf;Integrated Security=True;Connect Timeout=30"
+    //"SwirlConnectionString": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Miner\\Documents\\GatesheadCollegeProject\\web-api\\SwirlTheoryApi\\SwirlTheoryDb.mdf;Integrated Security=True;Connect Timeout=30"
   },
   "Logging": {
     "LogLevel": {

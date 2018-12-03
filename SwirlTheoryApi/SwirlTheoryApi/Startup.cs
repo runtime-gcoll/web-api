@@ -56,6 +56,9 @@ namespace SwirlTheoryApi
                 options.AddPolicy("AdminOnly", policy => policy.RequireClaim("IsAdmin", "true"));
             });
 
+            // Configure settings for CORS
+            services.AddCors();
+
             // Set up the DB connection and register it with dependency injection
             // We get the connection string from our config.json file (see Program.cs for config setup)
             services.AddDbContext<ShoppingContext>(options => options.UseSqlServer(_config.GetConnectionString("SwirlConnectionString")));

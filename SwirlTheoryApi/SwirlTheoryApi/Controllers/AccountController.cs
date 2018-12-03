@@ -92,6 +92,9 @@ namespace SwirlTheoryApi.Controllers
                             expiration = token.ValidTo // The date and time at which the token expires
                         };
 
+                        // Add the CORS header to the response sent
+                        Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
                         // Return empty string because there's no source for the object
                         // Then return the results object (containing the key and the expiry date)
                         return Created("", results);
