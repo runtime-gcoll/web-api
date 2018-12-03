@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SwirlTheoryApi.Data;
 using SwirlTheoryApi.Data.Entities;
+using SwirlTheoryApi.Middleware;
 
 namespace SwirlTheoryApi
 {
@@ -88,6 +89,9 @@ namespace SwirlTheoryApi
             {
                 app.UseHsts();
             }
+
+            // Enable the OPTIONS middleware we wrote to handle CORS preflight requests from browsers
+            app.UseOptions();
 
             // Enable Identity-based auth
             app.UseAuthentication();
