@@ -19,8 +19,14 @@ namespace SwirlTheoryApi.Middleware
         }
 
         public async Task Invoke(HttpContext context) {
+            // If it's not an OPTIONS request, then just pass the context on 
+            // to the next part of the request pipeline
+            if (context.Request.Method != "OPTIONS") {
+                await this._next.Invoke(context);
+            }
+            // Otherwise, mess with the headers and such to respond
+            // to preflight requests properly
             this.BeginInvoke(context);
-            await this._next.Invoke(context);
         }
 
         private async void BeginInvoke(HttpContext context) {
@@ -34,6 +40,9 @@ namespace SwirlTheoryApi.Middleware
                 // Set the response code to 200 OK
                 context.Response.StatusCode = 200;
                 // Write a response back to the HttpContext
+                // This will end the request here, which is why we need
+                // to check OPTIONS Invoke, because before it would try to write
+                // the reponse twice and the browser complained about chunked response
                 await context.Response.WriteAsync("OK");
             }
         }
